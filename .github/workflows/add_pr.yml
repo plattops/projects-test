@@ -55,12 +55,12 @@ jobs:
           echo 'STATUS_FIELD_ID='$(jq '.data.organization.projectV2.fields.nodes[] | select(.name== "Status") | .id' project_data.json) >> $GITHUB_ENV
           echo 'TODO_OPTION_ID='$(jq '.data.organization.projectV2.fields.nodes[] | select(.name== "Status") | .options[] | select(.name=="Todo") |.id' project_data.json) >> $GITHUB_ENV
 
-# Sets environment variables for this step. Replace `YOUR_TOKEN` with the name of the secret that contains your personal access token.
+
       - name: Add PR to project
         env:
-          GITHUB_TOKEN: ${{ secrets.YOUR_TOKEN }}
+          GITHUB_TOKEN: ${{ step.create_token.outputs.token }}
           PR_ID: ${{ github.event.pull_request.node_id }}
-        # Uses [GitHub CLI](https://cli.github.com/manual/) and the API to add the pull request that triggered this workflow to the project. The `jq` flag parses the response to get the ID of the created item.
+
         run: |
           item_id="$( gh api graphql -f query='
             mutation($project:ID!, $pr:ID!) {
