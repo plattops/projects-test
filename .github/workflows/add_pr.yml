@@ -58,7 +58,7 @@ jobs:
 
       - name: Add PR to project
         env:
-          GITHUB_TOKEN: ${{ step.create_token.outputs.token }}
+          GITHUB_TOKEN: ${{ steps.create_token.outputs.token }}
           PR_ID: ${{ github.event.pull_request.node_id }}
 
         run: |
@@ -80,7 +80,7 @@ jobs:
 # Sets environment variables for this step. Replace `YOUR_TOKEN` with the name of the secret that contains your personal access token.
       - name: Set fields
         env:
-          GITHUB_TOKEN: ${{ secrets.YOUR_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.create_token.outputs.token }}
         # Sets the value of the `Status` field to `Todo`. Sets the value of the `Date posted` field.
         run: |
           gh api graphql -f query='
